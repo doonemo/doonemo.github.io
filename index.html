@@ -1,628 +1,1108 @@
 <!DOCTYPE html>
-<html lang="ko" class="scroll-smooth">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>두네모 주식회사 | Doonemo Co., Ltd.</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts Inter & Pretendard Font Loading -->
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
-    <!-- FontAwesome for Premium Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Pretendard', 'Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            DEFAULT: 'var(--color-brand)',
-                            dark: 'var(--color-brand-dark)',
-                            light: 'var(--color-brand-light)',
-                            hover: 'var(--color-brand-hover)',
-                        }
-                    },
-                    boxShadow: {
-                        'premium': '0 10px 30px -10px rgba(0, 0, 0, 0.08)',
-                        'premium-hover': '0 20px 40px -15px rgba(0, 0, 0, 0.15)',
-                    }
-                }
-            }
-        }
-    </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nemoAI — 공공기관을 위한 온프레미스 AI 플랫폼</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <style>
-        :root {
-            --color-brand: #990000; /* Red-800 default matching 2_Red.png */
-            --color-brand-dark: #7a0000;
-            --color-brand-light: #fee2e2;
-            --color-brand-hover: #b91c1c;
-        }
+  :root {
+    --navy:    #1A0A0A;
+    --navy2:   #2A1010;
+    --blue:    #9B1515;
+    --blue2:   #C01A1A;
+    --cyan:    #2D6A2D;
+    --green:   #3D8C3D;
+    --light:   #FAF5F5;
+    --white:   #FFFFFF;
+    --gray1:   #9B8A8A;
+    --gray2:   #D8C8C8;
+    --text:    #1A0A0A;
+    --mono:    'JetBrains Mono', monospace;
+    --sans:    'Noto Sans KR', sans-serif;
+  }
 
-        .theme-green {
-            --color-brand: #1b5e20; /* Green-800 matching 3_Green.png */
-            --color-brand-dark: #0f3d13;
-            --color-brand-light: #dcfce7;
-            --color-brand-hover: #15803d;
-        }
+  html { scroll-behavior: smooth; }
 
-        body {
-            font-family: 'Pretendard', sans-serif;
-            background-color: #ffffff;
-            color: #1f2937;
-        }
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
 
-        .transition-theme {
-            transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, fill 0.4s ease;
-        }
-    </style>
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(26,10,10,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(45,106,45,0.2);
+  }
+  .nav-logo {
+    display: flex; align-items: center;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cyan); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 13px; font-weight: 500; color: var(--gray2);
+    text-decoration: none; letter-spacing: 0.02em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cyan); }
+  .nav-cta {
+    padding: 8px 22px; border-radius: 4px;
+    background: var(--cyan); color: var(--navy);
+    font-size: 13px; font-weight: 700; text-decoration: none;
+    transition: background 0.2s;
+    border: none; cursor: pointer; font-family: var(--sans);
+    letter-spacing: 0.02em;
+  }
+  .nav-cta:hover { background: var(--green); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1A0A0A 0%, #2A0C0C 60%, #1A0A0A 100%);
+    display: flex; align-items: center;
+    padding: 100px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 460px;
+    gap: 60px; align-items: center;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; font-weight: 400;
+    color: var(--cyan); letter-spacing: 0.15em; text-transform: uppercase;
+    border: 1px solid rgba(0,196,212,0.35);
+    padding: 5px 14px; border-radius: 2px; margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--cyan); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:0.4;transform:scale(0.8)}
+  }
+  .hero-h1 {
+    font-size: clamp(32px, 4vw, 54px);
+    font-weight: 900; color: var(--white);
+    line-height: 1.18; letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .hero-h1 em { font-style: normal; color: var(--cyan); }
+  .hero-sub {
+    font-size: 17px; line-height: 1.7;
+    color: var(--gray2); margin-bottom: 40px;
+    max-width: 520px;
+  }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 14px 32px; background: var(--cyan); color: var(--navy);
+    font-weight: 700; font-size: 14px; border-radius: 4px;
+    text-decoration: none; transition: all 0.2s;
+    border: 2px solid transparent;
+  }
+  .btn-primary:hover { background: var(--green); }
+  .btn-ghost {
+    padding: 14px 32px; color: var(--white);
+    font-weight: 700; font-size: 14px; border-radius: 4px;
+    text-decoration: none; transition: all 0.2s;
+    border: 2px solid rgba(255,255,255,0.25);
+    background: transparent; cursor: pointer; font-family: var(--sans);
+  }
+  .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* Hero mockup terminal */
+  .hero-terminal {
+    background: #150808;
+    border: 1px solid rgba(45,106,45,0.25);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  }
+  .terminal-bar {
+    display: flex; align-items: center; gap: 7px;
+    padding: 12px 16px;
+    background: #200C0C;
+    border-bottom: 1px solid rgba(45,106,45,0.15);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.r{background:#FF5F57;} .dot.y{background:#FEBC2E;} .dot.g{background:#28C840;}
+  .terminal-title {
+    font-family: var(--mono); font-size: 11px; color: var(--gray1);
+    margin-left: auto; margin-right: auto;
+  }
+  .terminal-body { padding: 20px; font-family: var(--mono); font-size: 12.5px; line-height: 1.8; }
+  .t-comment { color: #4A6070; }
+  .t-cmd { color: var(--cyan); }
+  .t-ok { color: var(--green); }
+  .t-info { color: #7090B0; }
+  .t-warn { color: #FEBC2E; }
+  .t-rag { color: #A78BFA; }
+  .t-cursor {
+    display: inline-block; width: 8px; height: 14px;
+    background: var(--cyan); vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+  /* Hero BG decoration */
+  .hero-bg-ring {
+    position: absolute; right: -200px; top: 50%;
+    transform: translateY(-50%);
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,196,212,0.07);
+    pointer-events: none;
+  }
+  .hero-bg-ring::before {
+    content: ''; position: absolute; inset: 80px;
+    border-radius: 50%; border: 1px solid rgba(0,196,212,0.07);
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 100px 48px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 900; line-height: 1.22;
+    letter-spacing: -0.025em; margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 16px; line-height: 1.75;
+    color: #4A5F7A; max-width: 620px;
+  }
+  .dark { background: #1A0A0A; color: var(--white); }
+  .dark .section-eyebrow { color: var(--cyan); }
+  .dark .section-title { color: var(--white); }
+  .dark .section-sub { color: var(--gray2); }
+  .light-bg { background: var(--light); }
+
+  /* ── PAIN POINTS ── */
+  .pain-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 20px; margin-top: 56px;
+  }
+  .pain-card {
+    background: var(--white);
+    border: 1px solid #DDE4F0;
+    border-top: 3px solid var(--blue2);    border-radius: 8px;
+    padding: 28px 24px;
+  }
+  .pain-icon {
+    font-size: 28px; margin-bottom: 14px;
+  }
+  .pain-card h3 {
+    font-size: 13px; font-weight: 700; color: var(--blue);
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .pain-card p { font-size: 14px; line-height: 1.7; color: #4A5F7A; }
+
+  /* ── SOLUTION (WHY NEMOAI) ── */
+  .solution-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px; margin-top: 48px;
+  }
+  .solution-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(0,196,212,0.2);
+    border-radius: 8px; padding: 24px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .solution-card:hover {
+    background: rgba(0,196,212,0.07);
+    border-color: rgba(0,196,212,0.4);
+  }
+  .solution-card h3 {
+    font-size: 15px; font-weight: 700; color: var(--cyan);
+    margin-bottom: 8px;
+  }
+  .solution-card p { font-size: 13px; line-height: 1.7; color: var(--gray2); }
+  .solution-highlight {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, rgba(0,196,212,0.12), rgba(26,91,204,0.12));
+    border: 1px solid rgba(0,196,212,0.35);
+    border-radius: 8px; padding: 24px 28px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .solution-highlight .check { font-size: 22px; flex-shrink: 0; }
+  .solution-highlight strong { font-size: 16px; color: var(--white); }
+  .solution-highlight span { font-size: 13px; color: var(--gray2); display: block; margin-top: 2px; }
+
+  /* ── PRODUCTS ── */
+  .products-header { margin-bottom: 56px; }
+  .product-block {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; border: 1px solid #DDE4F0; border-radius: 12px;
+    overflow: hidden; margin-bottom: 32px;
+  }
+  .product-block.reverse { direction: rtl; }
+  .product-block.reverse > * { direction: ltr; }
+  .product-info {
+    padding: 48px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .product-badge {
+    display: inline-block;
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 4px 12px; border-radius: 2px;
+    background: #FEF0F0; color: var(--blue);
+    margin-bottom: 18px;
+  }
+  .product-info h3 {
+    font-size: 26px; font-weight: 900; color: var(--navy);
+    margin-bottom: 8px; letter-spacing: -0.02em;
+  }
+  .product-info .tagline {
+    font-size: 14px; color: var(--blue); font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .product-info p { font-size: 14px; line-height: 1.75; color: #4A5F7A; margin-bottom: 20px; }
+  .feature-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 11px; font-weight: 600; font-family: var(--mono);
+    padding: 5px 10px; border-radius: 3px;
+    background: #FEF0F0; color: #9B1515;
+    border: 1px solid #FBCCCC;
+  }
+  .product-visual {
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    padding: 40px;
+    min-height: 320px;
+  }
+  .mock-screen {
+    width: 100%; max-width: 340px;
+    background: #150808;
+    border-radius: 8px;
+    border: 1px solid rgba(45,106,45,0.25);
+    overflow: hidden;
+    font-family: var(--mono); font-size: 11px;
+  }
+  .mock-bar {
+    background: #200C0C; padding: 8px 14px;
+    display: flex; align-items: center; gap: 6px;
+    border-bottom: 1px solid rgba(45,106,45,0.15);
+  }
+  .mock-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+  .mock-title { margin-left: auto; margin-right: auto; color: var(--gray1); font-size: 10px; }
+  .mock-body { padding: 14px; line-height: 1.9; }
+  .ml { color: #7090B0; }
+  .mc { color: var(--cyan); }
+  .mg { color: var(--green); }
+  .mp { color: #A78BFA; }
+  .mw { color: var(--white); }
+  .my { color: #FEBC2E; }
+
+  /* ── CAPABILITIES ── */
+  .cap-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; margin-top: 48px;
+  }
+  .cap-card {
+    background: var(--white); border: 1px solid #DDE4F0;
+    border-radius: 10px; padding: 32px 28px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .cap-card:hover { box-shadow: 0 8px 32px rgba(26,91,204,0.12); transform: translateY(-2px); }
+  .cap-num {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    color: var(--blue2); letter-spacing: 0.1em; margin-bottom: 14px;
+  }
+  .cap-card h3 { font-size: 17px; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .cap-card p { font-size: 13px; line-height: 1.75; color: #4A5F7A; }
+
+  /* ── CREDENTIALS ── */
+  .cred-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 16px; margin-top: 48px;
+  }
+  .cred-card {
+    border: 1px solid rgba(0,196,212,0.2);
+    border-radius: 8px; padding: 28px;
+    background: rgba(255,255,255,0.04);
+    transition: background 0.2s;
+  }
+  .cred-card:hover { background: rgba(0,196,212,0.07); }
+  .cred-org {
+    font-size: 13px; font-weight: 700; color: var(--cyan);
+    margin-bottom: 4px;
+  }
+  .cred-desc { font-size: 13px; color: var(--gray2); line-height: 1.65; }
+  .cred-type {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    color: var(--gray1); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 12px;
+  }
+  .tech-assets {
+    margin-top: 48px;
+    display: grid; grid-template-columns: repeat(2,1fr); gap: 14px;
+  }
+  .tech-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+  }
+  .tech-item .ico { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .tech-item p { font-size: 13px; color: var(--gray2); line-height: 1.65; }
+  .tech-item strong { display: block; font-size: 14px; color: var(--white); margin-bottom: 2px; }
+
+  /* ── TIERS ── */
+  .tier-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 20px; margin-top: 48px;
+  }
+  .tier-card {
+    border-radius: 10px; padding: 36px 30px;
+    border: 1px solid #DDE4F0;
+    position: relative;
+  }
+  .tier-card.featured {
+    background: var(--navy); color: var(--white);
+    border-color: var(--blue2);
+  }
+  .tier-card.featured .tier-sub { color: var(--gray2); }
+  .tier-label {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 8px;
+  }
+  .tier-card.featured .tier-label { color: var(--cyan); }
+  .tier-name { font-size: 22px; font-weight: 900; margin-bottom: 4px; letter-spacing: -0.02em; }
+  .tier-sub { font-size: 13px; color: #4A5F7A; margin-bottom: 24px; }
+  .tier-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .tier-list li {
+    font-size: 13px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.55;
+    color: #4A5F7A;
+  }
+  .tier-card.featured .tier-list li { color: var(--gray2); }
+  .tier-list li::before { content: '→'; color: var(--blue2); font-weight: 700; flex-shrink:0; margin-top:1px; }
+  .tier-card.featured .tier-list li::before { color: var(--cyan); }
+  .tier-badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    font-size: 11px; font-weight: 700; font-family: var(--mono);
+    padding: 4px 14px; border-radius: 12px;
+    background: var(--cyan); color: var(--navy);
+    white-space: nowrap;
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap-row {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 0; margin-top: 56px;
+    border: 1px solid rgba(0,196,212,0.2);
+    border-radius: 10px; overflow: hidden;
+  }
+  .roadmap-step {
+    padding: 32px 28px;
+    border-right: 1px solid rgba(0,196,212,0.15);
+    position: relative;
+  }
+  .roadmap-step:last-child { border-right: none; }
+  .roadmap-n {
+    font-family: var(--mono); font-size: 10px; font-weight: 700;
+    color: var(--cyan); letter-spacing: 0.14em;
+    margin-bottom: 10px;
+  }
+  .roadmap-step h3 { font-size: 16px; font-weight: 800; color: var(--white); margin-bottom: 6px; }
+  .roadmap-step p { font-size: 12px; color: var(--gray2); line-height: 1.7; }
+  .roadmap-arr {
+    position: absolute; right: -14px; top: 50%;
+    transform: translateY(-50%);
+    width: 28px; height: 28px;
+    background: var(--navy2);
+    border: 1px solid rgba(0,196,212,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cyan); font-size: 12px; z-index: 2;
+  }
+  .roadmap-step:last-child .roadmap-arr { display: none; }
+  .roadmap-note {
+    margin-top: 28px;
+    padding: 18px 24px;
+    background: rgba(0,196,212,0.07);
+    border: 1px solid rgba(0,196,212,0.2);
+    border-radius: 6px;
+    font-size: 14px; color: var(--gray2); text-align: center;
+    font-style: italic;
+  }
+
+  /* ── FAQ ── */
+  .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 12px; }
+  .faq-item {
+    border: 1px solid #DDE4F0; border-radius: 8px;
+    overflow: hidden;
+  }
+  .faq-q {
+    padding: 20px 24px;
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    background: var(--white); transition: background 0.15s;
+    user-select: none;
+  }
+  .faq-q:hover { background: #F6F9FF; }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--blue2); font-weight: 300; flex-shrink: 0; }
+  .faq-a {
+    display: none; padding: 0 24px 20px;
+    font-size: 14px; line-height: 1.8; color: #4A5F7A;
+    background: var(--white);
+  }
+  .faq-item.open .faq-q { background: #F0F5FF; }
+  .faq-item.open .faq-q::after { content: '−'; }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── CTA FORM ── */
+  /* ── CONTACT CTA ── */
+  .contact-cta-section {
+    background: linear-gradient(120deg, #9B1515 0%, #C01A1A 50%, #7A1010 100%);
+    padding: 80px 48px;
+  }
+  .contact-cta-wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 48px; max-width: 1200px; margin: 0 auto;
+  }
+  .contact-cta-left { flex: 1; }
+  .contact-cta-eyebrow {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.18em; color: rgba(255,255,255,0.6);
+    border: 1px solid rgba(255,255,255,0.25);
+    display: inline-block; padding: 5px 14px; border-radius: 20px;
+    margin-bottom: 22px;
+  }
+  .contact-cta-title {
+    font-size: clamp(24px, 3vw, 38px); font-weight: 900;
+    color: var(--white); line-height: 1.25;
+    letter-spacing: -0.025em; margin-bottom: 14px;
+  }
+  .contact-cta-sub {
+    font-size: 15px; color: rgba(255,255,255,0.75);
+    line-height: 1.7; margin-bottom: 24px;
+  }
+  .contact-cta-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cta-tag {
+    font-size: 12px; font-weight: 600;
+    padding: 7px 16px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.08);
+  }
+  .contact-cta-right {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 14px;
+    flex-shrink: 0; min-width: 240px;
+  }
+  .contact-cta-btn {
+    padding: 16px 36px;
+    background: var(--white); color: #9B1515;
+    font-size: 15px; font-weight: 800;
+    border: none; border-radius: 8px;
+    cursor: pointer; font-family: var(--sans);
+    letter-spacing: 0.01em;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: transform 0.18s, box-shadow 0.18s;
+    white-space: nowrap; width: 100%;
+  }
+  .contact-cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .contact-cta-hint {
+    font-size: 12px; color: rgba(255,255,255,0.6);
+    text-align: center; line-height: 1.6;
+  }
+  .contact-cta-info {
+    margin-top: 6px; display: flex; flex-direction: column; gap: 6px;
+    width: 100%;
+  }
+  .cta-info-item {
+    font-size: 12px; color: rgba(255,255,255,0.55);
+    text-align: center; line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0F0404;
+    padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 20px;
+  }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+  .footer-links a { font-size: 13px; color: var(--gray1); text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--cyan); }
+  .footer-info {
+    display: flex; flex-direction: column; gap: 5px;
+    text-align: right;
+    font-size: 12px; color: #7A4040; line-height: 1.7;
+  }
+  .footer-copy { font-size: 11px; color: #5A3030; margin-top: 2px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-terminal { display: none; }
+    .pain-grid { grid-template-columns: 1fr 1fr; }
+    .solution-grid { grid-template-columns: 1fr 1fr; }
+    .product-block { grid-template-columns: 1fr; }
+    .product-block.reverse { direction: ltr; }
+    .product-visual { min-height: 200px; }
+    .cap-grid { grid-template-columns: 1fr 1fr; }
+    .cred-grid { grid-template-columns: 1fr; }
+    .tech-assets { grid-template-columns: 1fr; }
+    .tier-grid { grid-template-columns: 1fr; }
+    .roadmap-row { grid-template-columns: 1fr; }
+    .roadmap-arr { display: none !important; }
+    .contact-cta-wrap { flex-direction: column; text-align: center; }
+    .contact-cta-tags { justify-content: center; }
+    .contact-cta-right { width: 100%; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+    .footer-info { text-align: center; }
+  }
+</style>
 </head>
-<body class="transition-theme bg-white text-gray-800 overflow-x-hidden">
+<body>
 
-    <!-- Navigation Bar -->
-    <header class="fixed top-0 left-0 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 z-50 transition-theme">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Brand Logo Frame -->
-            <a href="#" class="flex items-center gap-3 group focus:outline-none">
-                <!-- 상대 경로로 수정 완료 -->
-                <img id="header-logo" src="2_Red.png" alt="두네모 로고" class="h-10 w-auto transition-all duration-300 transform group-hover:scale-105" onerror="this.src='https://placehold.co/120x40/990000/ffffff?text=doonemo'">
-                <span class="text-xl font-bold tracking-tight text-gray-900 hidden sm:block">두네모 주식회사</span>
-            </a>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="data:image/png;base64,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iAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCE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" alt="doonemo" style="height:36px; width:auto; display:block;">
+  </div>
+  <div class="nav-links">
+    <a href="#why">왜 nemoAI</a>
+    <a href="#products">제품</a>
+    <a href="#credentials">실적</a>
+    <a href="#contact">문의</a>
+  </div>
+  <button class="nav-cta" onclick="scrollToContact()">도입 상담 ↗</button>
+</nav>
 
-            <!-- Menu & Controls -->
-            <div class="flex items-center gap-8">
-                <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-600">
-                    <a href="#introduction" class="hover:text-brand transition-colors">기업 소개</a>
-                    <a href="#performance" class="hover:text-brand transition-colors">주요 실적</a>
-                    <a href="#products" class="hover:text-brand transition-colors">핵심 솔루션</a>
-                    <a href="#contact" class="hover:text-brand transition-colors">문의 및 안내</a>
-                </nav>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-ring"></div>
+  <div class="hero-grid container">
+    <div>
+      <div class="hero-eyebrow">On-Premises AI Platform &amp; AI Agent</div>
+      <h1 class="hero-h1">
+        폐쇄망에서도<br>
+        <em>완전하게</em> 동작하는<br>
+        공공기관 전용 AI
+      </h1>
+      <p class="hero-sub">
+        외부 API 없이 기관 내부망에서 독립 운영.<br>
+        보안정책을 지키면서 실제 업무에 AI를 적용하는<br>
+        온프레미스 AI 전문 파트너, 두네모입니다.
+      </p>
+      <div class="hero-btns">
+        <a href="#products" class="btn-primary">제품 살펴보기</a>
+        <button class="btn-ghost" onclick="scrollToContact()">도입 상담 신청 ↗</button>
+      </div>
+    </div>
+    <div class="hero-terminal">
+      <div class="terminal-bar">
+        <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        <span class="terminal-title">nemoAI ECO Platform — 내부망 독립 운영</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-comment"># 폐쇄망 환경 초기화</div>
+        <div class="t-cmd">$ nemoai start --mode=isolated</div>
+        <div class="t-ok">✓ 외부 API 연결 없음 (Zero outbound)</div>
+        <div class="t-ok">✓ 자체 LLM 엔진 로드 완료</div>
+        <div class="t-ok">✓ RAG 벡터 DB 인덱싱 완료</div>
+        <div>&nbsp;</div>
+        <div class="t-comment"># 업무 지식 질의응답</div>
+        <div class="t-cmd">$ ask "보안감사 절차서 찾아줘"</div>
+        <div class="t-rag">↳ 내부 지식 검색 중 (RAG)...</div>
+        <div class="t-ok">✓ 보안감사 절차서 v3.2 발견</div>
+        <div class="t-info">  → 3페이지 참조: 감사 절차 6단계</div>
+        <div class="t-warn">  → 담당자 검토 후 활용 권장</div>
+        <div>&nbsp;</div>
+        <div class="t-comment"># 감사 로그 자동 기록</div>
+        <div class="t-ok">✓ Audit Log 저장 완료</div>
+        <div><span class="t-cmd">$</span> <span class="t-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                <!-- Live Theme Switcher Component -->
-                <div class="flex items-center gap-1.5 bg-gray-100 p-1 rounded-full border border-gray-200">
-                    <button onclick="setTheme('red')" id="btn-theme-red" class="w-8 h-8 rounded-full flex items-center justify-center transition-all bg-white text-red-700 shadow-sm focus:outline-none" title="레드 테마">
-                        <i class="fa-solid fa-square text-xs text-[#990000]"></i>
-                    </button>
-                    <button onclick="setTheme('green')" id="btn-theme-green" class="w-8 h-8 rounded-full flex items-center justify-center transition-all text-gray-400 hover:text-green-700 focus:outline-none" title="그린 테마">
-                        <i class="fa-solid fa-square text-xs text-[#1b5e20]"></i>
-                    </button>
-                </div>
+<!-- WHY NEMOAI - PAIN POINTS -->
+<section id="why">
+  <div class="container">
+    <p class="section-eyebrow">Problem</p>
+    <h2 class="section-title">공공기관은 AI 도입에 구조적 제약이 있습니다</h2>
+    <p class="section-sub">외부 AI 서비스는 편리하지만, 보안·망분리·감사 대응 문제로 공공기관에서의 직접 활용은 어렵습니다.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon"></div>
+        <h3>정보 유출 위험</h3>
+        <p>외부 AI 사용 시 내부 문서·민감 정보가 외부 서버로 전송될 위험이 있습니다.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon"></div>
+        <h3>망분리 환경</h3>
+        <p>폐쇄망·내부망에서는 외부 API 접근이 불가하고, 인터넷망 차단 정책이 적용됩니다.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon"></div>
+        <h3>감사 대응 부재</h3>
+        <p>AI 활용 이력 기록·감사 추적 체계가 없으면 기관 감사 대응이 어려워집니다.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon"></div>
+        <h3>레거시 연계 부재</h3>
+        <p>기존 업무 시스템·레거시 코드와 연계 가능한 AI 솔루션이 없습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-                <!-- Call to Action Button -->
-                <a href="#contact" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-brand hover:bg-brand-hover text-white text-sm font-semibold transition-colors shadow-sm transition-theme">
-                    비즈니스 문의
-                </a>
-
-                <!-- Mobile Menu Icon -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-gray-600 hover:text-brand focus:outline-none">
-                    <i id="mobile-menu-icon" class="fa-solid fa-bars text-2xl"></i>
-                </button>
-            </div>
+<!-- SOLUTION -->
+<section class="dark">
+  <div class="container">
+    <p class="section-eyebrow">Solution</p>
+    <h2 class="section-title">nemoAI는 온프레미스 AI로 이 문제를 해결합니다</h2>
+    <p class="section-sub">외부 API 없이 기관 내부망에서 독립 운영 — 보안과 AI 혁신을 동시에 실현합니다.</p>
+    <div class="solution-grid">
+      <div class="solution-highlight">
+        <div class="check"></div>
+        <div>
+          <strong>외부 API 미사용 — 내부 데이터 외부 전송 Zero</strong>
+          <span>기관 내부망 폐쇄 환경에서 LLM·RAG·보안 점검 전 기능이 완전 자체 완결됩니다</span>
         </div>
+      </div>
+      <div class="solution-card">
+        <h3> 기관 내부망 독립 운영</h3>
+        <p>폐쇄망·내부망에서 외부 API 없이 자체 LLM 완전 독립 운영. 망분리 환경 실증 운영 경험 보유.</p>
+      </div>
+      <div class="solution-card">
+        <h3> 내부 문서 기반 정밀 질의응답</h3>
+        <p>기관 내부 문서·업무 지식을 기반으로 정확한 질의응답. 제로환각 RAG 기술 특허 출원 2건 보유.</p>
+      </div>
+      <div class="solution-card">
+        <h3> 사용자 역할 기반 접근 제어</h3>
+        <p>관리자·실무자·검토자 권한 분리. 질문·응답 이력 저장 및 감사 추적으로 보안 감사 완벽 대응.</p>
+      </div>
+      <div class="solution-card">
+        <h3> 업무별 AI Agent 확장</h3>
+        <p>행정지원·민원상담·개발지원·교육지원 등 기관 맞춤 Agent 적용. 공공 SI·SM 개발 업무 자동화.</p>
+      </div>
+      <div class="solution-card">
+        <h3> 외부 API 비용 Zero</h3>
+        <p>100% 오픈소스 기반. 특정 벤더 종속 없이 GPU 인프라 최적화로 TCO를 절감합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- Mobile Drawer Navigation -->
-        <div id="mobile-drawer" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg absolute top-20 left-0 w-full flex flex-col py-6 px-8 gap-4 transition-all">
-            <a href="#introduction" onclick="toggleMobileMenu()" class="text-base font-semibold text-gray-700 hover:text-brand py-2 border-b border-gray-50">기업 소개</a>
-            <a href="#performance" onclick="toggleMobileMenu()" class="text-base font-semibold text-gray-700 hover:text-brand py-2 border-b border-gray-50">주요 실적</a>
-            <a href="#products" onclick="toggleMobileMenu()" class="text-base font-semibold text-gray-700 hover:text-brand py-2 border-b border-gray-50">핵심 솔루션</a>
-            <a href="#contact" onclick="toggleMobileMenu()" class="text-base font-semibold text-gray-700 hover:text-brand py-2">문의 및 안내</a>
-            <a href="#contact" onclick="toggleMobileMenu()" class="mt-4 w-full py-3 text-center rounded-xl bg-brand text-white font-semibold shadow transition-theme">비즈니스 문의</a>
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="container">
+    <div class="products-header">
+      <p class="section-eyebrow">Products</p>
+      <h2 class="section-title">두 제품의 통합 AI 활용 체계</h2>
+      <p class="section-sub">업무 플랫폼과 코딩 에이전트, 두 제품을 함께 도입하면 업무 영역 + 개발 영역 통합 AI 체계가 완성됩니다.</p>
+    </div>
+
+    <!-- ECO Platform -->
+    <div class="product-block">
+      <div class="product-info">
+        <span class="product-badge">ECO Platform</span>
+        <h3>nemoAI ECO Platform</h3>
+        <p class="tagline">보안이 해결된 내부용 ChatGPT</p>
+        <p>폐쇄망에서 안전하게 운영되는 공공기관 전용 AI 업무 플랫폼. Economical·Compact·Optimized 세 가지 핵심 가치로 설계되었습니다. 별도 모델 학습 없이 내부 문서 지식화로 도입 즉시 활용 가능합니다.</p>
+        <div class="feature-tags">
+          <span class="tag">폐쇄망 독립 운영</span>
+          <span class="tag">제로환각 RAG</span>
+          <span class="tag">역할 기반 권한</span>
+          <span class="tag">Audit Log</span>
+          <span class="tag">전자정부 표준</span>
+          <span class="tag">업무 Agent 확장</span>
         </div>
-    </header>
-
-    <!-- Hero / Intro Banner Section -->
-    <section id="introduction" class="relative pt-36 pb-24 md:pt-48 md:pb-36 bg-gradient-to-b from-gray-50 via-white to-white overflow-hidden">
-        <div class="absolute inset-0 z-0 pointer-events-none opacity-40">
-            <div class="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] rounded-full bg-brand-light blur-3xl"></div>
-            <div class="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] rounded-full bg-brand-light blur-3xl"></div>
+      </div>
+      <div class="product-visual">
+        <div class="mock-screen">
+          <div class="mock-bar">
+            <div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div>
+            <span class="mock-title">nemoAI ECO — 지식 질의응답</span>
+          </div>
+          <div class="mock-body">
+            <div class="ml">사용자 (행정팀)</div>
+            <div class="mw">❯ 출장비 정산 절차가 어떻게 되나요?</div>
+            <br>
+            <div class="mc">nemoAI Assistant</div>
+            <div class="mg">✓ 내부 규정 검색 완료</div>
+            <div class="mw">출장비 정산 절차 (규정 v2.4):</div>
+            <div class="ml">1. 출장명령서 사전 결재</div>
+            <div class="ml">2. 영수증 3일 이내 제출</div>
+            <div class="ml">3. 전자결재 시스템 신청</div>
+            <div class="ml">4. 팀장 → 재무팀 최종 승인</div>
+            <br>
+            <div class="my">V 출처: 여비규정 제7조 3항</div>
+            <div class="ml">※ 담당자 확인 후 활용 권장</div>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <div class="max-w-7xl mx-auto px-6 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <!-- Hero Content -->
-            <div class="lg:col-span-7 flex flex-col items-start gap-6">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-light text-brand font-semibold text-xs tracking-wider uppercase transition-theme">
-                    <span class="flex h-2 w-2 relative">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
-                    </span>
-                    AI & DevSecOps Leader
-                </div>
-
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight">
-                    보안이 숨쉬는 곳에<br>
-                    <span class="text-brand transition-theme">두네모 AI 기술</span>이 함께합니다
-                </h1>
-
-                <p class="text-lg text-gray-600 leading-relaxed max-w-2xl">
-                    두네모 주식회사는 검증된 폐쇄망 특화 AI 플랫폼 기술 자산(<span class="font-semibold text-gray-900">nemoAI ECO Platform</span>)과 지능형 AI 코딩 엔진(<span class="font-semibold text-gray-900">CodeGEN</span>)을 통해 국가 최고 수준의 보안성과 신뢰성을 요구하는 공공, 국방, 행정 인프라의 온프레미스 AI 혁신을 선도합니다.
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
-                    <a href="#products" class="px-8 py-4 text-center rounded-full bg-brand hover:bg-brand-hover text-white font-bold transition-all shadow-md hover:shadow-lg transition-theme">
-                        핵심 기술 살펴보기 <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                    <a href="#performance" class="px-8 py-4 text-center rounded-full bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 font-bold transition-all shadow-sm">
-                        비즈니스 실적 확인
-                    </a>
-                </div>
-            </div>
-
-            <!-- Hero Interactive Graphic Frame -->
-            <div class="lg:col-span-5 flex justify-center items-center relative">
-                <div class="w-full max-w-md aspect-square bg-white border border-gray-100 rounded-3xl shadow-premium p-8 relative flex flex-col justify-between overflow-hidden group hover:shadow-premium-hover transition-all duration-300">
-                    <div class="absolute inset-0 opacity-5 pointer-events-none bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-light rounded-full mix-blend-multiply filter blur-xl opacity-60 animate-pulse transition-theme"></div>
-
-                    <div class="flex items-center justify-between border-b border-gray-100 pb-4 relative z-10">
-                        <div class="flex items-center gap-2">
-                            <span class="w-3 h-3 rounded-full bg-red-400"></span>
-                            <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
-                            <span class="w-3 h-3 rounded-full bg-green-400"></span>
-                        </div>
-                        <span class="text-xs font-semibold text-gray-400 tracking-wider">ON-PREMISE ECO PLATFORM</span>
-                    </div>
-
-                    <!-- Dynamic Logo Container (상대 경로로 수정) -->
-                    <div class="my-12 flex flex-col items-center justify-center gap-6 relative z-10">
-                        <img id="hero-logo" src="2_Red.png" alt="두네모 브랜드 로고" class="w-48 h-auto transition-transform duration-500 hover:scale-105" onerror="this.src='https://placehold.co/240x80/990000/ffffff?text=doonemo'">
-                        <p class="text-xs font-bold text-gray-400 tracking-widest text-center uppercase">SECURE CLOSED NETWORK TECHNOLOGY</p>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-2 border-t border-gray-100 pt-4 text-center relative z-10">
-                        <div>
-                            <p class="text-xl font-bold text-brand transition-theme" id="stat-accuracy">95%</p>
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">RAG Accuracy</p>
-                        </div>
-                        <div class="border-x border-gray-100">
-                            <p class="text-xl font-bold text-brand transition-theme">Zero</p>
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Data Leak</p>
-                        </div>
-                        <div>
-                            <p class="text-xl font-bold text-brand transition-theme">100%</p>
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Air-Gap Ready</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- CodeGen -->
+    <div class="product-block reverse">
+      <div class="product-info">
+        <span class="product-badge">CodeGen</span>
+        <h3>nemoAI CodeGen</h3>
+        <p class="tagline">전자정부 표준 코드를 자연어 한 줄로</p>
+        <p>공공 SI·SM 전용 온프레미스 AI 코딩 Agent. 전자정부프레임워크 표준 코드 자동 생성부터 Git 형상관리·빌드·배포 자동화, WBS·API 명세서·산출물 보고서 문서화까지 공공 개발 사업 전 과정을 지원합니다.</p>
+        <div class="feature-tags">
+          <span class="tag">eGovframe 표준 코드</span>
+          <span class="tag">자연어 코드 생성</span>
+          <span class="tag">Git CI/CD 자동화</span>
+          <span class="tag">산출물 자동화</span>
+          <span class="tag">레거시 연계</span>
+          <span class="tag">보안 취약점 예방</span>
         </div>
-    </section>
-
-    <!-- Business Achievements Section -->
-    <section id="performance" class="py-24 bg-gray-50 border-y border-gray-100 transition-theme">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center gap-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-brand transition-theme">Track Record & Capability</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">검증된 도입 실적 및 보유 기술 규격</h2>
-                <div class="w-12 h-1 bg-brand rounded-full mt-2 transition-theme"></div>
-                <p class="text-gray-500 mt-2 text-sm sm:text-base">두네모 주식회사는 국가 보안 가이드라인을 완전 준수하는 검증된 납품 실적과 군 표준 규격을 지원하는 전용 솔루션 기능을 기본 탑재하고 있습니다.</p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Case 1 -->
-                <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-premium hover:shadow-premium-hover transition-all flex flex-col justify-between">
-                    <div class="flex flex-col gap-6">
-                        <div class="flex items-center justify-between">
-                            <div class="p-3 bg-brand-light rounded-2xl text-brand transition-theme">
-                                <i class="fa-solid fa-hand-holding-medical text-2xl"></i>
-                            </div>
-                            <span class="text-xs font-bold text-green-700 bg-green-50 px-3 py-1 rounded-full border border-green-100">도입 완료</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 leading-tight">보건복지부 및 사회보장정보원<br>온프레미스 AI LLM 플랫폼 납품</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            공공 기밀 복지 데이터 유출 방지를 위해 사설 폐쇄망 내에서 완전 자립형으로 작동하는 LLM AI 추론망 환경을 구축 및 납품하였습니다. 오프라인 보안 및 데이터 격리 원칙을 충족하는 최상위 등급의 신뢰성을 증명한 대표적 민·관 협업 사례입니다.
-                        </p>
-                    </div>
-                    <div class="border-t border-gray-100 mt-8 pt-4 flex items-center justify-between text-xs font-semibold text-gray-400">
-                        <span>주관: 두네모 주식회사</span>
-                        <span>사용자 만족도 최고 수준</span>
-                    </div>
-                </div>
-
-                <!-- Case 2 -->
-                <div class="bg-white rounded-3xl p-8 border border-gray-100 shadow-premium hover:shadow-premium-hover transition-all flex flex-col justify-between">
-                    <div class="flex flex-col gap-6">
-                        <div class="flex items-center justify-between">
-                            <div class="p-3 bg-brand-light rounded-2xl text-brand transition-theme">
-                                <i class="fa-solid fa-shield-halved text-2xl"></i>
-                            </div>
-                            <span class="text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">2026 RND 탑재 사양</span>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-900 leading-tight">군통합 표준 규격<br>MCP 기반 통합 오케스트레이션 엔진 탑재</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed">
-                            국방망 내 이기종 보안·검증 모듈(SAST, DAST, SCA)을 단일 표준 프로토콜(MCP)로 유기적으로 결합·중계하는 연동 프레임워크를 엔진 자체에 내장하고 있습니다. 다양한 파트너사 보안 도구를 플러그인 형태로 즉각 통합 관제할 수 있는 높은 확장성을 제공합니다.
-                        </p>
-                    </div>
-                    <div class="border-t border-gray-100 mt-8 pt-4 flex items-center justify-between text-xs font-semibold text-gray-400">
-                        <span>표준: Model Context Protocol (MCP)</span>
-                        <span>K-RMF 대응 통합 아키텍처 기본 제공</span>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="product-visual">
+        <div class="mock-screen">
+          <div class="mock-bar">
+            <div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div>
+            <span class="mock-title">nemoAI CodeGen — 코드 생성</span>
+          </div>
+          <div class="mock-body">
+            <div class="ml">개발자 입력</div>
+            <div class="mw">❯ 사용자 관리 CRUD 화면 만들어줘</div>
+            <div class="ml">  eGovframe 표준, MyBatis 연동</div>
+            <br>
+            <div class="mc">CodeGen Agent</div>
+            <div class="mg">✓ eGovframe 표준 코드 생성 중...</div>
+            <div class="mp">→ UserController.java</div>
+            <div class="mp">→ UserService.java</div>
+            <div class="mp">→ UserMapper.xml</div>
+            <div class="mp">→ user_list.jsp</div>
+            <br>
+            <div class="mg">✓ 보안 취약점 자동 점검 완료</div>
+            <div class="mg">✓ 산출물 보고서 자동 생성</div>
+            <div class="my">📎 WBS 자동 업데이트 완료</div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Core Products Section -->
-    <section id="products" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-3xl mx-auto mb-16 flex flex-col items-center gap-3">
-                <span class="text-xs font-bold uppercase tracking-widest text-brand transition-theme">Technology Suite</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">두네모의 핵심 지능형 AI 솔루션</h2>
-                <div class="w-12 h-1 bg-brand rounded-full mt-2 transition-theme"></div>
-                <p class="text-gray-500 mt-2 text-sm sm:text-base">물리적 망 분리 에어갭 환경 속에서도 지능형 개발 생산성을 완벽히 백업하는 3대 대표 엔진을 소개합니다.</p>
-            </div>
+<!-- CAPABILITIES -->
+<section class="light-bg">
+  <div class="container">
+    <p class="section-eyebrow">Why nemoAI</p>
+    <h2 class="section-title">공공기관이 요구하는 조건을 모두 충족</h2>
+    <p class="section-sub">보안성·정확성·경제성·확장성까지, nemoAI는 공공기관의 6가지 핵심 요구를 동시에 만족합니다.</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-num">01 — 보안성</div>
+        <h3>데이터 외부 유출 Zero</h3>
+        <p>외부 API 미사용, 내부망 독립 운영, 민감 데이터 외부 유출 차단. 감사·로그 추적 체계로 보안 감사에 완벽 대응합니다.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">02 — 정확성</div>
+        <h3>제로환각 RAG 기술</h3>
+        <p>특허 출원 2건의 Hybrid RAG 엔진으로 내부 지식 기반 정확한 답변 생성. 스마트 청킹 기반 Data Curation으로 환각을 원천 차단합니다.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">03 — 개방성</div>
+        <h3>벤더 종속 Zero</h3>
+        <p>100% 오픈소스 기반, Open LLM 모델 교체 자유. MCP 지원으로 3rd Party Agent 연동이 가능하며 특정 벤더에 종속되지 않습니다.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">04 — 경제성</div>
+        <h3>외부 API 비용 Zero</h3>
+        <p>외부 API 비용 없는 경제적 운영. GPU 인프라 최적화와 단일 플랫폼 통합 관리로 TCO를 최소화합니다.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">05 — 확장성</div>
+        <h3>Lite → Enterprise 3단계</h3>
+        <p>소규모 지자체부터 중앙부처까지, Lite·Standard·Enterprise 3단계 확장 구조. 이중화·클러스터링으로 대형 기관 운영을 지원합니다.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-num">06 — 통합성</div>
+        <h3>업무·개발 통합 체계</h3>
+        <p>인증·인가·모니터링 통합, 3종 역할별 UI, 업무별 Agent 패키지. ECO Platform과 CodeGen의 결합으로 조직 전체 AI 전환을 완성합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Product 1 -->
-                <div class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-premium hover:shadow-premium-hover transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="w-14 h-14 bg-brand-light text-brand rounded-2xl flex items-center justify-center mb-6 transition-theme">
-                        <i class="fa-solid fa-network-wired text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">nemoAI ECO Platform</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-6">
-                        소프트웨어 저작권 등록이 완료된(C-2025-022964) 두네모 고유의 폐쇄망 지능형 오케스트레이션 플랫폼으로, AI 5계층 통제 구조와 이중 저장소 RAG 원천 기술을 탑재하고 있습니다.
-                    </p>
-                    <ul class="space-y-2 text-xs font-semibold text-gray-600 mb-6">
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> 5단계 AI 파이프라인 통제</li>
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> 이중 저장소 하이브리드 RAG</li>
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> 완벽한 에어갭 보안 아키텍처</li>
-                    </ul>
-                </div>
 
-                <!-- Product 2 -->
-                <div class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-premium hover:shadow-premium-hover transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="w-14 h-14 bg-brand-light text-brand rounded-2xl flex items-center justify-center mb-6 transition-theme">
-                        <i class="fa-solid fa-code text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">CodeGEN AI Engine</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-6">
-                        사내망 내에서 외부 망연계 없이 단독 빌드될 수 있도록 파인튜닝된 고성능 경량 소스코드 생성 모델(sLLM)과 지능형 에이전트 자립형 알고리즘을 제공합니다.
-                    </p>
-                    <ul class="space-y-2 text-xs font-semibold text-gray-600 mb-6">
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> 시큐어 코딩 패턴 강제 수렴</li>
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> 스마트 청킹 시맨틱 코드 분석</li>
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> VS Code / IntelliJ 연동</li>
-                    </ul>
-                </div>
-
-                <!-- Product 3 -->
-                <div class="group bg-white rounded-3xl p-8 border border-gray-100 shadow-premium hover:shadow-premium-hover transition-all duration-300 transform hover:-translate-y-1">
-                    <div class="w-14 h-14 bg-brand-light text-brand rounded-2xl flex items-center justify-center mb-6 transition-theme">
-                        <i class="fa-solid fa-user-check text-2xl"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Human-in-the-Loop Console</h3>
-                    <p class="text-sm text-gray-500 leading-relaxed mb-6">
-                        완전 자율형 AI의 보안적 환각 및 통제권 우회를 강력히 방지하며 개발자 ➡ 보안담당자(PL) ➡ 보안책임자(PM)의 3단계 보안 승인을 강제하는 고도화된 게이트 제어 콘솔입니다.
-                    </p>
-                    <ul class="space-y-2 text-xs font-semibold text-gray-600 mb-6">
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> K-RMF 실시간 준수율 산출</li>
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> Semantic Diff 의미론적 위험 평가</li>
-                        <li><i class="fa-solid fa-check text-brand mr-2 transition-theme"></i> 위변조 방지 전용 감사 로그</li>
-                    </ul>
-                </div>
-            </div>
+<!-- CREDENTIALS -->
+<section id="credentials" class="dark">
+  <div class="container">
+    <p class="section-eyebrow">Credentials</p>
+    <h2 class="section-title">공공기관에서 검증된 nemoAI</h2>
+    <p class="section-sub">실제 공공기관에서 납품·운영 중인 검증된 제품입니다.</p>
+    <div class="cred-grid">
+      <div class="cred-card">
+        <div class="cred-org">한국사회보장정보원 (SSIS)</div>
+        <div class="cred-desc">On-premises AI 플랫폼 개발 용역 수행 및 사내 표준 AI 플랫폼으로 선정·운영 중</div>
+        <div class="cred-type">ECO Platform</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-org">한국사회보장정보원 (SSIS)</div>
+        <div class="cred-desc">2025년 AI활용 초기상담정보시스템 사업 ECO 플랫폼 납품 및 2026년 사회보장 정보통합 플랫폼 유지관리사업 CodeGen 납품</div>
+        <div class="cred-type">ECO Platform + CodeGen</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-org">보건복지부</div>
+        <div class="cred-desc">차세대 전자바우처 구축 사업에 CodeGen 도입. 전자정부프레임워크 기반 공공 개발 업무 자동화</div>
+        <div class="cred-type">CodeGen</div>
+      </div>
+    </div>
+    <div class="tech-assets">
+      <div class="tech-item">
+        <div class="ico"></div>
+        <div>
+          <strong>제로환각 RAG 기술 특허 출원 2건</strong>
+          <p>이중 저장소 RAG 원천기술 및 스마트 청킹 기반 환각 원천 차단 기술. SW 저작권 등록 완료 (C-2025-022964).</p>
         </div>
-    </section>
-
-    <!-- Organization & R&R Architecture Section -->
-    <section class="py-24 bg-gray-50 border-t border-gray-100 transition-theme">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-5 flex flex-col gap-6">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand transition-theme">Defense Specification</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">국방 가이드라인 만족을 위한<br>독자적 솔루션 기능 설계</h2>
-                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
-                        두네모 솔루션은 국방망 특화 환경 및 까다로운 육·해·공군 보안 규정을 즉각 바인딩할 수 있는 **차세대 국방 전용 아키텍처(AI Harness Framework)**를 제품 자체 핵심 기능으로 완전 구현하여 탑재하고 있습니다.
-                    </p>
-                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
-                        요구사항 입력을 시작으로 소스코드 자율 생성, SAST/DAST 자동 점검 중계, 3단계 게이트 승인, 그리고 마지막 형상관리(.hwpx 군 표준 설계서 자동화 추출 및 GitLab 형상관리망 안전 연동)에 이르는 전 주기의 라이프사이클 관리를 타사 모듈 추가 없이 통합 솔루션 기능만으로 안정적으로 처리합니다.
-                    </p>
-                </div>
-                
-                <div class="lg:col-span-7 bg-white rounded-3xl p-8 border border-gray-200 shadow-premium">
-                    <h4 class="text-base font-bold text-gray-900 mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-diagram-project text-brand transition-theme"></i>
-                        nemoAI 플랫폼 특화 4대 보유 기능
-                    </h4>
-                    
-                    <div class="space-y-4">
-                        <div class="p-4 rounded-2xl bg-gray-50 hover:bg-brand-light/20 transition-all border border-gray-100 flex gap-4">
-                            <span class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center font-bold text-sm shrink-0 transition-theme">1</span>
-                            <div>
-                                <h5 class="font-bold text-gray-900 text-sm">MCP 기반 이기종 모듈 플러그인 통합 기능</h5>
-                                <p class="text-xs text-gray-500 mt-1">상용 SAST, Sandbox/DAST, 사설 지식 데이터 RAG 등 이기종 솔루션을 원클릭으로 결합·제어하는 MCP 통신 엔진 내장</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-gray-50 hover:bg-brand-light/20 transition-all border border-gray-100 flex gap-4">
-                            <span class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center font-bold text-sm shrink-0 transition-theme">2</span>
-                            <div>
-                                <h5 class="font-bold text-gray-900 text-sm">국방망 전용 독립 배포 프로파일 설계 기술</h5>
-                                <p class="text-xs text-gray-500 mt-1">동일 상용 코어 바이너리를 유지하면서 '나'급 국방 보안 설정 및 무결성 검증 필터를 물리 분리해 동적 주입하는 기능 지원</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-gray-50 hover:bg-brand-light/20 transition-all border border-gray-100 flex gap-4">
-                            <span class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center font-bold text-sm shrink-0 transition-theme">3</span>
-                            <div>
-                                <h5 class="font-bold text-gray-900 text-sm">3단계 Human-in-the-Loop 결재 승인 콘솔 탑재</h5>
-                                <p class="text-xs text-gray-500 mt-1">개발자(수락) ➡ 보안담당자(취약점 검토) ➡ 최종책임자(배포 승인)로 연계되는 국방 최적화 4대 뷰포트 결재 시스템 기본 탑재</p>
-                            </div>
-                        </div>
-
-                        <div class="p-4 rounded-2xl bg-gray-50 hover:bg-brand-light/20 transition-all border border-gray-100 flex gap-4">
-                            <span class="w-8 h-8 rounded-full bg-brand text-white flex items-center justify-center font-bold text-sm shrink-0 transition-theme">4</span>
-                            <div>
-                                <h5 class="font-bold text-gray-900 text-sm">군 표준 .hwpx 및 GitLab 형상관리 자동화 모듈</h5>
-                                <p class="text-xs text-gray-500 mt-1">검증 완료된 소스코드와 보안 검사 내역을 통합하여 군 표준 한글 포맷 문서(.hwpx)로 자율 변환하고 형상관리망으로 이송하는 연동 모듈 기본 탑재</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="tech-item">
+        <div class="ico"></div>
+        <div>
+          <strong>전자정부프레임워크(eGovframe) 기반</strong>
+          <p>행안부 표준 완벽 준수. 중소벤처기업부 연구과제 Hybrid RAG 엔진 개발 수행.</p>
         </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <!-- Left Info Pane -->
-            <div class="lg:col-span-5 flex flex-col justify-between gap-12">
-                <div class="flex flex-col gap-6">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand transition-theme">Contact Us</span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">비즈니스 협력 및 문의</h2>
-                    <div class="w-12 h-1 bg-brand rounded-full transition-theme"></div>
-                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
-                        두네모 주식회사는 공공기관, 방산 중대형 메이저 체계 기업 및 치안/금융 기관들과 함께 고신뢰성 온프레미스 AI 개발망 구축을 적극 협력해나가고 있습니다. 기술 제휴, PoC, 도입 의향 상담 등 언제든지 편하게 문의해주십시오.
-                    </p>
-                </div>
-
-                <!-- Contacts -->
-                <div class="space-y-6">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-brand-light text-brand rounded-xl flex items-center justify-center shrink-0 transition-theme">
-                            <i class="fa-solid fa-location-dot"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">주소 (Address)</p>
-                            <p class="text-sm font-semibold text-gray-700 mt-1">서울특별시 강동구 천호대로 1095, 3층 301호(천호동, 현대코아)</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-brand-light text-brand rounded-xl flex items-center justify-center shrink-0 transition-theme">
-                                <i class="fa-solid fa-phone"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">전화 (Phone)</p>
-                                <p class="text-sm font-semibold text-gray-700 mt-1">02-6959-2270</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 bg-brand-light text-brand rounded-xl flex items-center justify-center shrink-0 transition-theme">
-                                <i class="fa-solid fa-print"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">팩스 (Fax)</p>
-                                <p class="text-sm font-semibold text-gray-700 mt-1">02-572-3350</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-brand-light text-brand rounded-xl flex items-center justify-center shrink-0 transition-theme">
-                            <i class="fa-solid fa-envelope"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">대표 이메일 (Email)</p>
-                            <a href="mailto:sales@doonemo.kr" class="text-sm font-semibold text-brand hover:underline mt-1 block transition-theme">sales@doonemo.kr</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Interactive Form Box -->
-            <div class="lg:col-span-7 bg-gray-50 border border-gray-100 rounded-3xl p-8 sm:p-10 shadow-premium transition-theme">
-                <h4 class="text-lg font-bold text-gray-900 mb-6">문의 사항 송신</h4>
-                
-                <form id="inquiryForm" onsubmit="handleInquirySubmit(event)" class="space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">담당자명 / 기관명</label>
-                            <input type="text" required placeholder="홍길동 / 국방연구원" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-light transition-all">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">회신 연락처</label>
-                            <input type="tel" required placeholder="010-1234-5678" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-light transition-all">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">회신 이메일 주소</label>
-                        <input type="email" required placeholder="example@domain.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-light transition-all">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">문의 구분</label>
-                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-light transition-all">
-                            <option>nemoAI ECO Platform 도입 문의</option>
-                            <option>CodeGEN AI 코딩 지원 도입 문의</option>
-                            <option>국방 DevSecOps 사업 연계 제휴</option>
-                            <option>기타 일반 비즈니스 문의</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">상세 문의 내용</label>
-                        <textarea required rows="4" placeholder="문의 사항 혹은 구축 의향이 있는 시스템 사양을 상세히 기재해주세요." class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-700 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-light transition-all"></textarea>
-                    </div>
-
-                    <!-- Agree Checkbox -->
-                    <div class="flex items-start gap-3">
-                        <input type="checkbox" required id="chk-agree" class="mt-1 accent-brand rounded border-gray-300 transition-theme">
-                        <label for="chk-agree" class="text-xs font-semibold text-gray-500 leading-relaxed cursor-pointer select-none">
-                            두네모 주식회사가 비즈니스 회신 및 서비스 안내 목적으로 연락처 정보를 가공 및 보존함에 동의합니다. (개인정보 수집 동의 필수)
-                        </label>
-                    </div>
-
-                    <button type="submit" class="w-full py-4 rounded-xl bg-brand hover:bg-brand-hover text-white text-sm font-bold tracking-wider uppercase transition-all shadow-md hover:shadow-lg transition-theme">
-                        안전한 암호화 문의 발송
-                    </button>
-                </form>
-            </div>
+      </div>
+      <div class="tech-item">
+        <div class="ico"></div>
+        <div>
+          <strong>폐쇄망·내부망 온프레미스 전문성</strong>
+          <p>망분리 환경 실증 운영 경험. 100% 오픈소스 기반 기술 종속성 Zero 설계.</p>
         </div>
-    </section>
-
-    <!-- Custom Modern Alert/Toast Notification System -->
-    <div id="toast-container" class="fixed bottom-8 right-8 z-50 flex flex-col gap-3 max-w-sm w-full pointer-events-none"></div>
-
-    <!-- Footer Section (상대 경로로 수정) -->
-    <footer class="bg-gray-900 text-gray-400 py-16 border-t border-gray-800 transition-theme">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <!-- Footer Brand & Bio -->
-            <div class="lg:col-span-5 flex flex-col items-start gap-4">
-                <img id="footer-logo" src="2_Red.png" alt="두네모 푸터 로고" class="h-10 w-auto opacity-80 hover:opacity-100 transition-all" onerror="this.src='https://placehold.co/120x40/990000/ffffff?text=doonemo'">
-                <p class="text-sm leading-relaxed mt-2 text-gray-400">
-                    두네모 주식회사는 검증된 온프레미스 AI 플랫폼 기술을 바탕으로 국가와 기업의 차세대 AI 핵심 솔루션을 구축해나갑니다.
-                </p>
-                <p class="text-xs font-bold text-gray-500 mt-2">© 2026 DOONEMO CO., LTD. ALL RIGHTS RESERVED.</p>
-            </div>
-
-            <!-- Company Legal Information Desk -->
-            <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8 text-xs text-gray-500">
-                <div class="flex flex-col gap-2">
-                    <h5 class="text-sm font-bold text-gray-300 uppercase tracking-widest mb-2">두네모 주식회사 정보</h5>
-                    <p><span class="font-bold text-gray-400">대표이사:</span> 김명주, 김종찬 공동 대표</p>
-                    <p><span class="font-bold text-gray-400">대표 전화:</span> 02-6959-2270</p>
-                    <p><span class="font-bold text-gray-400">대표 팩스:</span> 02-572-3350</p>
-                    <p><span class="font-bold text-gray-400">이메일:</span> <a href="mailto:sales@doonemo.kr" class="text-brand hover:underline transition-theme">sales@doonemo.kr</a></p>
-                </div>
-                <div class="flex flex-col gap-2">
-                    <h5 class="text-sm font-bold text-gray-300 uppercase tracking-widest mb-2">주소지 안내</h5>
-                    <p class="leading-relaxed">
-                        서울특별시 강동구 천호대로 1095, 3층 301호<br>(천호동, 현대코아)
-                    </p>
-                    <p class="mt-4 leading-relaxed text-[11px] text-gray-600">
-                        본 사이트의 nemoAI, CodeGEN 등의 브랜드 명칭 및 저작권은 특허법 및 저작권법에 의거하여 보호받는 두네모 주식회사의 고유 지식 재산 자산입니다.
-                    </p>
-                </div>
-            </div>
+      </div>
+      <div class="tech-item">
+        <div class="ico"></div>
+        <div>
+          <strong>기업부설연구소 인정</strong>
+          <p>과학기술정보통신부 기업부설연구소 인정. 지속적인 AI 기술 연구개발 체계 보유.</p>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Code logics & interactive theme controller (상대 경로로 수정) -->
-    <script>
-        let currentTheme = 'red';
+<!-- TIERS -->
+<section class="light-bg">
+  <div class="container">
+    <p class="section-eyebrow">Pricing Tiers</p>
+    <h2 class="section-title">기관 규모와 예산에 맞는 3단계 구성</h2>
+    <p class="section-sub">소규모 도입 후 성과를 확인하고 기관 전체로 확장하는 단계적 접근을 지원합니다.</p>
+    <div class="tier-grid">
+      <div class="tier-card">
+        <div class="tier-label">Lite / 경량형</div>
+        <div class="tier-name">소규모 시작</div>
+        <p class="tier-sub">소규모 지자체 · 단일 부서</p>
+        <ul class="tier-list">
+          <li>소형 LLM · 경량 GPU 구성</li>
+          <li>Q&amp;A · 간단 어시스턴트 기능</li>
+          <li>초기 비용 최소화</li>
+          <li>빠른 파일럿 도입 가능</li>
+        </ul>
+      </div>
+      <div class="tier-card featured">
+        <div class="tier-badge">가장 많이 선택</div>
+        <div class="tier-label">Standard / 표준형</div>
+        <div class="tier-name">복수 부서 운영</div>
+        <p class="tier-sub">복수 부서 공공기관</p>
+        <ul class="tier-list">
+          <li>워크스테이션 GPU 구성</li>
+          <li>다양한 업무 Agent 적용</li>
+          <li>병렬 처리 지원</li>
+          <li>중간 규모 안정 운영</li>
+        </ul>
+      </div>
+      <div class="tier-card">
+        <div class="tier-label">Enterprise / 중대형</div>
+        <div class="tier-name">전기관 지능화</div>
+        <p class="tier-sub">중앙부처 · 대형 기관</p>
+        <ul class="tier-list">
+          <li>고성능 GPU 클러스터</li>
+          <li>대형 RAG · 이중화 · 연계</li>
+          <li>기관 전체 지능화</li>
+          <li>이중화·클러스터링 지원</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-        function setTheme(theme) {
-            currentTheme = theme;
-            const body = document.body;
-            const headerLogo = document.getElementById('header-logo');
-            const heroLogo = document.getElementById('hero-logo');
-            const footerLogo = document.getElementById('footer-logo');
-            const btnRed = document.getElementById('btn-theme-red');
-            const btnGreen = document.getElementById('btn-theme-green');
+<!-- ROADMAP -->
+<section class="dark">
+  <div class="container">
+    <p class="section-eyebrow">Adoption Process</p>
+    <h2 class="section-title">단계적 도입으로 리스크를 최소화합니다</h2>
+    <p class="section-sub">처음부터 전체를 자동화하기보다, 작은 성공을 쌓아 기관 전체로 확장합니다.</p>
+    <div class="roadmap-row">
+      <div class="roadmap-step">
+        <div class="roadmap-n">STEP 01</div>
+        <h3>파일럿 도입</h3>
+        <p>단일 부서·업무를 대상으로 Lite 파일럿. 소규모로 리스크를 최소화하고 가능성을 검증합니다.</p>
+        <div class="roadmap-arr">→</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-n">STEP 02</div>
+        <h3>범위 정의</h3>
+        <p>파일럿 성과를 기반으로 확장 범위, 보안 및 인프라 요구사항을 함께 확인합니다.</p>
+        <div class="roadmap-arr">→</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-n">STEP 03</div>
+        <h3>Standard 확장</h3>
+        <p>검증된 업무부터 Standard 단계로 확장. 업무·개발 병렬 AI 적용으로 생산성을 높입니다.</p>
+        <div class="roadmap-arr">→</div>
+      </div>
+      <div class="roadmap-step">
+        <div class="roadmap-n">STEP 04</div>
+        <h3>전기관 지능화</h3>
+        <p>Enterprise 전환으로 기관 전체 AI 플랫폼 완성. 중앙부처급 전 업무 지능화를 달성합니다.</p>
+      </div>
+    </div>
+    <div class="roadmap-note">
+      "처음부터 모든 업무를 자동화하기보다, 검증된 업무부터 단계적으로 확장합니다"
+    </div>
+  </div>
+</section>
 
-            if (theme === 'green') {
-                body.classList.add('theme-green');
-                // 상대 경로 '3_Green.png' 사용
-                headerLogo.src = '3_Green.png';
-                heroLogo.src = '3_Green.png';
-                footerLogo.src = '3_Green.png';
-                
-                btnGreen.classList.add('bg-white', 'text-green-700', 'shadow-sm');
-                btnGreen.classList.remove('text-gray-400');
-                btnRed.classList.remove('bg-white', 'text-red-700', 'shadow-sm');
-                btnRed.classList.add('text-gray-400');
+<!-- FAQ -->
+<section>
+  <div class="container">
+    <p class="section-eyebrow">FAQ</p>
+    <h2 class="section-title">자주 묻는 질문</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">내부 문서가 외부로 유출될 가능성은 없습니까?</div>
+        <div class="faq-a">nemoAI ECO Platform은 온프레미스 또는 폐쇄망·내부망 환경에 완전 독립 구축됩니다. 외부 API를 전혀 사용하지 않으며, 내부 데이터는 외부 서버로 전송되지 않습니다. 역할 기반 접근 제어(RBAC)와 전구간 Audit Log로 접근 이력을 투명하게 관리합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">AI 답변을 그대로 업무에 사용해도 됩니까?</div>
+        <div class="faq-a">업무 담당자의 검토를 전제로 활용하는 것이 적절합니다. nemoAI는 정보 탐색과 초안 작성 시간을 줄이는 역할을 합니다. 제로환각 RAG 기술로 내부 문서 기반의 정확한 답변을 제공하지만, 최종 판단은 담당자가 하도록 설계되어 있습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">기존 시스템(전자정부프레임워크, 레거시)과 바로 연동됩니까?</div>
+        <div class="faq-a">nemoAI는 전자정부프레임워크(eGovframe) 기반으로 개발되어 행안부 표준을 완벽 준수합니다. CodeGen은 레거시 코드·문서 연계를 위한 프롬프트 앵커 기술(특허출원)을 보유합니다. 구체적인 연동 범위는 파일럿 단계에서 기관 시스템 구조에 맞춰 함께 확인합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">감사 대응을 위한 이력 관리는 어떻게 됩니까?</div>
+        <div class="faq-a">모든 질문·응답 이력이 저장되며 감사 추적 체계가 내장되어 있습니다. 관리자·실무자·검토자 3종 역할별 UI와 운영 모니터링 대시보드를 통해 AI 활용 현황을 투명하게 관리할 수 있으며, 보안 감사에 완벽 대응합니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">비용은 어떻게 구성됩니까?</div>
+        <div class="faq-a">외부 API 비용이 전혀 없어 장기적으로 경제적입니다. 어플라이언스 일괄 납품 또는 연간 임대 서비스 두 가지 방식으로 제공됩니다. 기관 규모에 맞는 Lite·Standard·Enterprise 단계 구성으로 초기 투자 부담을 최소화하고, 성과 확인 후 단계적으로 확장할 수 있습니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                document.getElementById('stat-accuracy').innerText = '96%';
-                showToast('브랜드 컬러가 그린 테마로 아름답게 변경되었습니다.', 'green');
-            } else {
-                body.classList.remove('theme-green');
-                // 상대 경로 '2_Red.png' 사용
-                headerLogo.src = '2_Red.png';
-                heroLogo.src = '2_Red.png';
-                footerLogo.src = '2_Red.png';
+<!-- CONTACT -->
+<section id="contact" class="contact-cta-section">
+  <div class="container">
+    <div class="contact-cta-wrap">
+      <div class="contact-cta-left">
+        <p class="contact-cta-eyebrow">TALK WITH doonemo</p>
+        <h2 class="contact-cta-title">보안과 성능,<br>둘 다 놓칠 수 없다면<br>지금 두네모와 상담하세요.</h2>
+        <p class="contact-cta-sub">기관의 업무 환경에 최적화된 AI 솔루션이 기다리고 있습니다.</p>
+        <div class="contact-cta-tags">
+          <span class="cta-tag">도입 전략 제안</span>
+          <span class="cta-tag">업무별 데모 안내</span>
+          <span class="cta-tag">보안 환경 검토</span>
+        </div>
+      </div>
+      <div class="contact-cta-right">
+        <button class="contact-cta-btn" onclick="window.location.href='mailto:sales@doonemo.kr'">
+          전문가와 상담하기 ↗
+        </button>
+        <p class="contact-cta-hint">기관 환경에 맞는 맞춤형 상담을<br>빠르게 연결합니다.</p>
+        <div class="contact-cta-info">
+          <div class="cta-info-item"> 02-6959-2270</div>
+          <div class="cta-info-item"> sales@doonemo.kr</div>
+          <div class="cta-info-item"> 경기 남양주시 별내중앙로 24, 이레타워 606호</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                btnRed.classList.add('bg-white', 'text-red-700', 'shadow-sm');
-                btnRed.classList.remove('text-gray-400');
-                btnGreen.classList.remove('bg-white', 'text-green-700', 'shadow-sm');
-                btnGreen.classList.add('text-gray-400');
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA/EAAAM2CAYAAAC+LAOZAAAACXBIWXMAAC4jAAAuIwF4pT92AAAcCklEQVR4nO3dwXEbd5rG4c9bvPWhmYGYgbQRiBuBlYG4SGCYgegIzE2gDUewUgZkBlQGYAbCAWfNge0ZzXrXK5Hd+OPtfp4ql6t8gF+yiQZ+QBP86evXrwUAAACcvn9rPQAAAAD4PiIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACDEWesBp2To+tuqetN6B0Cg7eaw37YekcBjDQD8sOvNYf/QesSpEPH/6k1VvW09AiDQXesBQTzWAMCPOW894JS4nB4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCnLUewKrdV9VDVX1pPQR4sbvWA+D/cF9Vu/EfgJe6GP9523YGaybiOabHqvpYVdvNYf/QegwAi7Svqm1Vfdwc9ndtpwBLNnT9ZVVdVdW7quqbjmFVRDzH8FhVN5vDftt6CACL5bEGOKrxhcK7qqqh66+q6qaqXjUbxGqIeOa0r6cnVLethwCwWPuqut0c9jethwDrNb6AuB26/qaqPrRdw9L5YDvmcl9VbwQ8ADP6XFWXAh44FeP56N/r6fwEsxDxzOH3zWF/uTnsd62HALBYv9dTwPuMFeCkjOely6r61HgKC+Vyeqb2++awv2o9AoBF81gDnLTNYf+lqt4NXb+tqveN57Aw3olnSp5UATC3Tx5rgBTj+eq+9Q6WRcQzlc+eVAEws8/19OecAJK8K78jz4REPFPY19PJCQDmdDVeogoQYzxvXbXewXKIeKZw40PsAJjZLz7EDkg1nr9+ab2DZRDxvNSjPyMHwMz2VeWxBkh3W0/nM3gREc9L3bQeAMDi3bqMHkg3nse8IMmLiXhe4nFz2G9bjwBg0bwLDyyJ8xkvJuJ5iY+tBwCweB+9Cw8sxXg++9R6B9lEPC+xbT0AgMXzgjGwNM5rvIiI59l8SjAAR3DXegDAxO5aDyCbiOe57lsPAGDxHl1KDyzN+KeZH1vvIJeI57m8Cw/A3HatBwDMZNd6ALlEPM/lnREA5uYFY2Cpdq0HkEvEAwCnygvGwFLtWg8gl4gHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgHAACAECIeAAAAQoh4AAAACCHiAQAAIISIBwAAgBAiHgAAAEKIeAAAAAgh4gEAACCEiAcAAIAQIh4AAABCiHgAAAAIIeIBAAAghIgH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" alt="doonemo" style="height:44px; width:auto; display:block; filter: brightness(1.1);">
+  </div>
+  <div class="footer-links">
+    <a href="#why">문제 인식</a>
+    <a href="#products">제품 소개</a>
+    <a href="#credentials">도입 실적</a>
+    <a href="#contact">문의·상담</a>
+  </div>
+  <div class="footer-info">
+    <div>두네모 주식회사 &nbsp;|&nbsp; 공동대표 김명주 · 김종찬</div>
+    <div>경기 남양주시 별내중앙로 24, 이레타워 606호 &nbsp;|&nbsp; 02-6959-2270 &nbsp;|&nbsp; sales@doonemo.kr</div>
+    <div class="footer-copy">© 2025 doonemo INC. All rights reserved.</div>
+  </div>
+</footer>
 
-                document.getElementById('stat-accuracy').innerText = '95%';
-                showToast('브랜드 컬러가 레드 테마로 안전하게 복구되었습니다.', 'red');
-            }
-        }
+<script>
+  // 상담 섹션으로 부드럽게 스크롤
+  function scrollToContact() {
+    const target = document.getElementById('contact');
+    const offset = 64;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
 
-        let drawerOpen = false;
-        function toggleMobileMenu() {
-            const drawer = document.getElementById('mobile-drawer');
-            const icon = document.getElementById('mobile-menu-icon');
-            drawerOpen = !drawerOpen;
+  // FAQ accordion
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
 
-            if (drawerOpen) {
-                drawer.classList.remove('hidden');
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                drawer.classList.add('hidden');
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            }
-        }
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
 
-        function handleInquirySubmit(event) {
-            event.preventDefault();
-            showToast('성공적으로 접수되었습니다. 담당자가 실시간 보안 검토 후 24시간 내에 회신드리겠습니다.', 'success');
-            document.getElementById('inquiryForm').reset();
-        }
-
-        function showToast(message, type) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'pointer-events-auto flex items-center p-4 rounded-2xl shadow-premium border bg-white border-gray-100 transform translate-y-2 opacity-0 transition-all duration-300 ease-out';
-            
-            let iconMarkup = '';
-            if (type === 'red') {
-                iconMarkup = `<i class="fa-solid fa-square-check text-[#990000] text-lg mr-3"></i>`;
-            } else if (type === 'green') {
-                iconMarkup = `<i class="fa-solid fa-circle-check text-[#1b5e20] text-lg mr-3"></i>`;
-            } else {
-                iconMarkup = `<i class="fa-solid fa-shield-circle-check text-green-600 text-lg mr-3"></i>`;
-            }
-
-            toast.innerHTML = `
-                <div class="flex items-start">
-                    ${iconMarkup}
-                    <div class="text-xs font-semibold text-gray-700 leading-normal">
-                        ${message}
-                    </div>
-                </div>
-            `;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 4000);
-        }
-
-        window.onload = function () {
-            setTheme('red');
-            console.log('두네모 주식회사 공식 포트폴리오 플랫폼이 정상적으로 초기화되었습니다.');
-        }
-    </script>
+  document.querySelectorAll('.pain-card, .solution-card, .cap-card, .cred-card, .tier-card, .defense-feature, .tech-item, .product-block').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    observer.observe(el);
+  });
+</script>
 </body>
 </html>
